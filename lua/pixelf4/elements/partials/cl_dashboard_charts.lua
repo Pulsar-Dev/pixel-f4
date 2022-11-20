@@ -114,7 +114,7 @@ function PANEL:Init()
 
     function selfInfo:PerformLayout(w, h)
         yourName = PIXEL.EllipsesText(LocalPlayer():Nick(), w, "F4.ChartsStat")
-        self:SetRounding(selfInfo:GetWide() / 2)
+        self:SetRounding(selfInfo:GetWide() / 4)
         self:SetSteamID(LocalPlayer():SteamID64(), h)
         oldPerformLayout(self, w, h)
     end
