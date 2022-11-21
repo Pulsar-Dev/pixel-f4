@@ -29,22 +29,22 @@ function PANEL:Init()
 
     self:SetTitle(PIXEL.F4.Config.MenuTitle)
 
-    local sidebar = self:CreateSidebar("Dashboard", PIXEL.F4.Config.SidebarLogo, nil, PIXEL.Scale(10), PIXEL.Scale(20))
+    self.Sidebar = self:CreateSidebar("Dashboard", PIXEL.F4.Config.SidebarLogo, nil, PIXEL.Scale(10), PIXEL.Scale(20))
 
-    sidebar:AddItem("Dashboard", "Dashboard", "dkErdSv", function() self:ChangeTab("PIXEL.F4.Dashboard", "Dashboard") end)
-    sidebar:AddItem("Jobs", "Jobs", "v5e4tGV", function() self:ChangeTab("PIXEL.F4.Jobs", "Jobs") end)
-    sidebar:AddItem("Entities", "Entities", "Be1LD3X", function() self:ChangeTab("PIXEL.F4.Entities", "Entities") end)
-    sidebar:AddItem("Weapons", "Weapons", "tMz2fGT", function() self:ChangeTab("PIXEL.F4.Weapons", "Weapons") end)
+    self.Sidebar:AddItem("Dashboard", "Dashboard", "dkErdSv", function() self:ChangeTab("PIXEL.F4.Dashboard", "Dashboard") end)
+    self.Sidebar:AddItem("Jobs", "Jobs", "v5e4tGV", function() self:ChangeTab("PIXEL.F4.Jobs", "Jobs") end)
+    self.Sidebar:AddItem("Entities", "Entities", "Be1LD3X", function() self:ChangeTab("PIXEL.F4.Entities", "Entities") end)
+    self.Sidebar:AddItem("Weapons", "Weapons", "tMz2fGT", function() self:ChangeTab("PIXEL.F4.Weapons", "Weapons") end)
 
     local add = function(idname, imgur, pnl)
-        sidebar:AddItem(idname, idname, imgur, function() self:ChangeTab(pnl, id) end)
+        self.Sidebar:AddItem(idname, idname, imgur, function() self:ChangeTab(pnl, id) end)
     end
     hook.Run("PIXEL.F4.PopulateSidebar", add)
 
-    sidebar.Links = {}
+    self.Sidebar.Links = {}
 
     for k,v in ipairs(PIXEL.F4.Config.WebsiteLinks) do
-        local btn = vgui.Create("PIXEL.SidebarItem", sidebar)
+        local btn = vgui.Create("PIXEL.SidebarItem", self.Sidebar)
         btn:Dock(BOTTOM)
         btn:SetName(v.Name)
         btn:SetImgurID(v.ImgurID)
@@ -58,11 +58,11 @@ function PANEL:Init()
             end
         end
 
-        sidebar.Links[k] = btn
+        self.Sidebar.Links[k] = btn
     end
 
-    local oldPerformLayout = sidebar.PerformLayout
-    function sidebar:PerformLayout(w, h)
+    local oldPerformLayout = self.Sidebar.PerformLayout
+    function self.Sidebar:PerformLayout(w, h)
         oldPerformLayout(self, w, h)
 
         local height = PIXEL.Scale(35)

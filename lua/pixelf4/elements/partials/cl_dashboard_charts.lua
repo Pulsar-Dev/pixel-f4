@@ -2,7 +2,6 @@
 --[[
     PIXEL F4
     Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
@@ -70,42 +69,7 @@ function PANEL:Init()
 
     table.insert(self.Charts, jobDistribution)
 
-    local totalMoney = vgui.Create("Panel", self)
-
-    totalMoney.AnimProg = 1
-
-    function totalMoney:PerformLayout(w, h)
-        local centerX, centerY = w / 2, h / 2
-        local segRadius = math.min(centerX, centerY)
-        self.CachedCircle = PIXEL.PrecacheArc(centerX, centerY, segRadius, segRadius, 0, 360, 3)
-    end
-
-    local moneyTitleTable = {"Total Money", "F4.ChartsName", PIXEL.F4.Colors.ChartLabel, 1, PIXEL.Scale(2)}
-    local moneySubTitleTable = {PIXEL.FormatMoney(0), "F4.ChartsStat", PIXEL.F4.Colors.ChartLabel, 1, PIXEL.Scale(2)}
-
-    local lerp = Lerp
-    function totalMoney:Paint(w, h)
-        local centerX, centerY = w / 2, h / 2
-        local diameter = math.min(w, h) * self.AnimProg
-        local diameterInner = math.min(w, h) - PIXEL.Scale(15)
-
-        if self.AnimProg >= .99 then
-            PIXEL.DrawCircle(centerX - diameter / 2, centerY - diameter / 2, diameter, diameter, PIXEL.F4.Colors.TotalMoney)
-            PIXEL.DrawCircle(centerX - diameterInner / 2, centerY - diameterInner / 2, diameterInner, diameterInner, overlayCol)
-            PIXEL.DrawDualText(moneyTitleTable, moneySubTitleTable, w / 2, h / 2)
-            return
-        end
-
-        self.AnimProg = lerp(FrameTime() * 6, self.AnimProg, 1)
-
-        PIXEL.DrawCircle(centerX - diameter / 2, centerY - diameter / 2, diameter, diameter, PIXEL.F4.Colors.TotalMoney)
-        PIXEL.DrawCircle(centerX - diameterInner / 2, centerY - diameterInner / 2, diameterInner, diameterInner, overlayCol)
-        PIXEL.DrawDualText(moneyTitleTable, moneySubTitleTable, w / 2, h / 2)
-    end
-
-    table.insert(self.Charts, totalMoney)
-
-    local selfInfo = vgui.Create("PIXEL.Avatar", self)
+    local selfInfo = vgui.Create("PIXEL.OldAvatar", self)
 
     local oldPerformLayout = selfInfo.PerformLayout
     local yourName = LocalPlayer():Nick()
@@ -114,7 +78,7 @@ function PANEL:Init()
 
     function selfInfo:PerformLayout(w, h)
         yourName = PIXEL.EllipsesText(LocalPlayer():Nick(), w, "F4.ChartsStat")
-        self:SetRounding(selfInfo:GetWide() / 4)
+        self:SetMaskSize(math.min(h,w) * .478)
         self:SetSteamID(LocalPlayer():SteamID64(), h)
         oldPerformLayout(self, w, h)
     end
